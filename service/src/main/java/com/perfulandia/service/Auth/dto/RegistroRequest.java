@@ -1,16 +1,9 @@
-package com.perfulandia.service.model;
+package com.perfulandia.service.Auth.dto;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-@Entity
-@Table(name = "usuarios")
-public class Usuario {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class RegistroRequest {
 
     @NotBlank(message = "El nombre es obligatorio")
     private String nombre;
@@ -22,19 +15,9 @@ public class Usuario {
     @NotBlank(message = "La contraseña es obligatoria")
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "rol_id")
-    private Rol rol;
+    private Long rolId; // En caso de asignación manual
 
-    // Getters y setters...
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    // Getters y Setters
     public String getNombre() {
         return nombre;
     }
@@ -59,12 +42,11 @@ public class Usuario {
         this.password = password;
     }
 
-    public Rol getRol() {
-        return rol;
+    public Long getRolId() {
+        return rolId;
     }
 
-    public void setRol(Rol rol) {
-        this.rol = rol;
+    public void setRolId(Long rolId) {
+        this.rolId = rolId;
     }
-
 }
