@@ -1,8 +1,9 @@
 package com.perfulandia.service.Controller;
 
+import com.perfulandia.service.Auth.LoginRequest;
 import com.perfulandia.service.model.Usuario;
 import com.perfulandia.service.service.UsuarioService;
-import com.perfulandia.service.dto.LoginRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
