@@ -2,9 +2,11 @@ package com.perfulandia.service.Controller;
 
 import com.perfulandia.service.model.Usuario;
 import com.perfulandia.service.service.UsuarioService;
+import com.perfulandia.service.dto.LoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 
 import jakarta.validation.Valid;
 
@@ -49,6 +51,22 @@ public class UsuarioController {
             return ResponseEntity.noContent().build(); // 204 No Content
         } else {
             return ResponseEntity.notFound().build(); // 404 Not Found
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        Optional<Usuario> usuarioOpt = usuarioService.buscarPorCorreo(request.getCorreo());
+
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            if (usuarioService.verificarPassword(request.getPassword(), usuario.getPassword())) {
+                return ResponseEntity.ok(usuario); // En el futuro aquí va un token
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Contraseña incorrecta");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario no encontrado");
         }
     }
 

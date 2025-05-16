@@ -19,6 +19,13 @@ public class Usuario {
     @Email(message = "Debe ser un correo válido")
     private String correo;
 
+    @NotBlank(message = "La contraseña es obligatoria")
+    private String password;
+
+    @ManyToOne
+    @JoinColumn(name = "rol_id")
+    private Rol rol;
+
     // Getters y setters...
     public Long getId() {
         return id;
@@ -42,5 +49,13 @@ public class Usuario {
 
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
