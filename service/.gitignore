@@ -1,0 +1,36 @@
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# Maven target directory
+/target/
+
+# Eclipse/VS Code/IDEA files
+*.iml
+*.ipr
+*.iws
+.idea/
+.vscode/
+.project
+.classpath
+.settings/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+
+# Build output
+build/
+
+# Logs y temp
+*.tmp
+*.bak
+
+# Node (por si mezclas con frontend)
+node_modules/
+dist/
