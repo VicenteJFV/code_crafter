@@ -24,4 +24,22 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS512, jwtConfig.getSecret().getBytes())
                 .compact();
     }
+
+    public String obtenerCorreoDesdeToken(String token) {
+        return Jwts.parser()
+                .setSigningKey(jwtConfig.getSecret().getBytes())
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
+
+    public boolean validarToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(jwtConfig.getSecret().getBytes()).parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }
