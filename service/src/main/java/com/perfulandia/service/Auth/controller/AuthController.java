@@ -46,7 +46,7 @@ public class AuthController {
             Usuario usuario = usuarioOpt.get();
 
             if (usuarioService.verificarPassword(request.getPassword(), usuario.getPassword())) {
-                String token = jwtUtil.generarToken(usuario.getCorreo());
+                String token = jwtUtil.generarToken(usuario);
                 return ResponseEntity.ok(new JwtResponse(token));
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Contraseña incorrecta");
@@ -58,27 +58,32 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registrarUsuario(@Valid @RequestBody RegistroRequest request) {
-        // Verifica si el correo ya existe
-        if (usuarioService.buscarPorCorreo(request.getCorreo()).isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("El correo ya está registrado");
+        try {
+            System.out.println("Registrando usuario: " + request.getCorreo());
+
+            if (usuarioService.buscarPorCorreo(request.getCorreo()).isPresent()) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("El correo ya está registrado");
+            }
+
+            Optional<Rol> rolOpt = rolRepository.findById(request.getRolId());
+            if (rolOpt.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Rol inválido");
+            }
+
+            Usuario nuevoUsuario = new Usuario();
+            nuevoUsuario.setNombre(request.getNombre());
+            nuevoUsuario.setCorreo(request.getCorreo());
+            nuevoUsuario.setPassword(request.getPassword());
+            nuevoUsuario.setRol(rolOpt.get());
+
+            usuarioService.guardarUsuario(nuevoUsuario);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body("Usuario registrado correctamente");
+
+        } catch (Exception e) {
+            e.printStackTrace(); // Esto mostrará el error real en la consola
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno: " + e.getMessage());
         }
-
-        // Busca el rol
-        Optional<Rol> rolOpt = rolRepository.findById(request.getRolId());
-        if (rolOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Rol inválido");
-        }
-
-        // Crear y guardar usuario
-        Usuario nuevoUsuario = new Usuario();
-        nuevoUsuario.setNombre(request.getNombre());
-        nuevoUsuario.setCorreo(request.getCorreo());
-        nuevoUsuario.setPassword(passwordEncoder.encode(request.getPassword()));
-        nuevoUsuario.setRol(rolOpt.get());
-
-        usuarioService.guardarUsuario(nuevoUsuario);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("Usuario registrado correctamente");
     }
 
     @GetMapping("/roles")

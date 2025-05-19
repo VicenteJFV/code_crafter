@@ -12,6 +12,10 @@ public class Rol {
 
     private String nombre;
 
+    public Rol() {
+
+    }
+
     // Getters y setters
     public Long getId() {
         return id;
@@ -28,6 +32,7 @@ public class Rol {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
     public Rol(String nombre) {
         this.nombre = nombre;
     }

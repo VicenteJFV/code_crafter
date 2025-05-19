@@ -2,26 +2,27 @@ package com.perfulandia.service.service;
 
 import com.perfulandia.service.model.Usuario;
 import com.perfulandia.service.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UsuarioService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-    private BCryptPasswordEncoder passwordEncoder;
-
-    public List<Usuario> listarUsuarios() {
-        return usuarioRepository.findAll();
-    }
+    private final UsuarioRepository usuarioRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     public Usuario guardarUsuario(Usuario usuario) {
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         return usuarioRepository.save(usuario);
+    }
+
+    public List<Usuario> listarUsuarios() {
+        return usuarioRepository.findAll();
     }
 
     public Optional<Usuario> buscarPorId(Long id) {
@@ -36,12 +37,11 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-    public boolean verificarPassword(String rawPassword, String encodedPassword) {
-        return passwordEncoder.matches(rawPassword, encodedPassword);
-    }
-
     public Optional<Usuario> buscarPorCorreo(String correo) {
         return usuarioRepository.findByCorreo(correo);
     }
 
+    public boolean verificarPassword(String raw, String hashed) {
+        return passwordEncoder.matches(raw, hashed);
+    }
 }
