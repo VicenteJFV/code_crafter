@@ -1,14 +1,33 @@
 {
-    "configurations": [
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-ServiceApplication<service>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.perfulandia.service.ServiceApplication",
+      "projectName": "service",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": true,
+      "cwd": "c:/Users/guerb/OneDrive/Escritorio/Authenticator/code_crafter",
+      "program": "c:/Users/guerb/OneDrive/Escritorio/Authenticator/code_crafter/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
         {
-            "type": "java",
-            "name": "Spring Boot-ServiceApplication<service>",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "mainClass": "com.perfulandia.service.ServiceApplication",
-            "projectName": "service",
-            "args": "",
-            "envFile": "${workspaceFolder}/.env"
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
         }
-    ]
+      ]
+    }
+  ]
 }

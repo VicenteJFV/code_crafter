@@ -3,11 +3,10 @@ package com.perfulandia.service;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.perfulandia.service")
 public class ServiceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ServiceApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(ServiceApplication.class, args);
+    }
 }
