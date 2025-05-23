@@ -42,11 +42,16 @@ public class Authcontroller<Authrequest> {
                 : ResponseEntity.status(401).body("Credenciales inválidas");
     }
 
-    }
+
 
     @PostMapping("/register")
     public ResponseEntity<AuthUser> register(@RequestBody AuthRequest request) {
 
         AuthUser newUser = new AuthUser();
         return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+    
     }
+
+}
+
+
