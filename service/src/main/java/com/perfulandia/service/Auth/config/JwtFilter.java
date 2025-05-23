@@ -1,7 +1,8 @@
 package com.perfulandia.service.Auth.config;
 
-import com.perfulandia.service.config.JwtConfig;
 import com.perfulandia.service.Auth.service.JwtUtil;
+import com.perfulandia.service.user.config.JwtConfig;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;

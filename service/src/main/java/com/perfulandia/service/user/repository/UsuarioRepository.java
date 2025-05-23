@@ -1,8 +1,10 @@
-package com.perfulandia.service.repository;
+package com.perfulandia.service.user.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.perfulandia.service.model.Usuario;
+
+import com.perfulandia.service.user.model.Usuario;
+
 import java.util.Optional;
 
 @Repository

@@ -1,9 +1,10 @@
 package com.perfulandia.service.Auth.service;
 
-import com.perfulandia.service.model.Rol;
-import com.perfulandia.service.model.Usuario;
-import com.perfulandia.service.repository.RolRepository;
-import com.perfulandia.service.service.UsuarioService;
+import com.perfulandia.service.user.model.Rol;
+import com.perfulandia.service.user.model.Usuario;
+import com.perfulandia.service.user.repository.RolRepository;
+import com.perfulandia.service.user.service.UsuarioService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

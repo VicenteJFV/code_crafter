@@ -1,7 +1,7 @@
 package com.perfulandia.service.Auth.service;
 
-import com.perfulandia.service.config.JwtConfig;
-import com.perfulandia.service.model.Usuario;
+import com.perfulandia.service.user.config.JwtConfig;
+import com.perfulandia.service.user.model.Usuario;
 
 import io.jsonwebtoken.security.Keys;
 import javax.crypto.SecretKey;

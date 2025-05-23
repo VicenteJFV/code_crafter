@@ -1,4 +1,4 @@
-package com.perfulandia.service.model;
+package com.perfulandia.service.user.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

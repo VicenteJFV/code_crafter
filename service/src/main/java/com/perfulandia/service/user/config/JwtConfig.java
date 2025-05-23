@@ -1,4 +1,4 @@
-package com.perfulandia.service.config;
+package com.perfulandia.service.user.config;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,5 @@
-package com.perfulandia.service.Controller;
+//archivo solo para testeo de autenticaciones JWT
+package com.perfulandia.service.user.Controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

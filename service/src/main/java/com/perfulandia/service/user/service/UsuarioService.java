@@ -1,7 +1,8 @@
-package com.perfulandia.service.service;
+package com.perfulandia.service.user.service;
 
-import com.perfulandia.service.model.Usuario;
-import com.perfulandia.service.repository.UsuarioRepository;
+import com.perfulandia.service.user.model.Usuario;
+import com.perfulandia.service.user.repository.UsuarioRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

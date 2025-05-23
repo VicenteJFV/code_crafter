@@ -5,10 +5,11 @@ import com.perfulandia.service.Auth.dto.LoginRequest;
 import com.perfulandia.service.Auth.dto.RegistroRequest;
 import com.perfulandia.service.Auth.service.JwtUtil;
 import com.perfulandia.service.Auth.service.AuthService;
-import com.perfulandia.service.model.Rol;
-import com.perfulandia.service.model.Usuario;
-import com.perfulandia.service.service.UsuarioService;
-import com.perfulandia.service.repository.RolRepository;
+import com.perfulandia.service.user.model.Rol;
+import com.perfulandia.service.user.model.Usuario;
+import com.perfulandia.service.user.repository.RolRepository;
+import com.perfulandia.service.user.service.UsuarioService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

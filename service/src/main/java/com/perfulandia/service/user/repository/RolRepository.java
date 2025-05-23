@@ -1,7 +1,8 @@
-package com.perfulandia.service.repository;
+package com.perfulandia.service.user.repository;
 
-import com.perfulandia.service.model.Rol;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.perfulandia.service.user.model.Rol;
 
 public interface RolRepository extends JpaRepository<Rol, Long> {
 }
