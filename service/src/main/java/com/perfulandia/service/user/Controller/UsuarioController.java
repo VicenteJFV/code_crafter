@@ -1,12 +1,11 @@
-package com.perfulandia.service.Controller;
+package com.perfulandia.service.user.Controller;
 
-import com.perfulandia.service.model.Usuario;
-import com.perfulandia.service.service.UsuarioService;
-import com.perfulandia.service.dto.LoginRequest;
+import com.perfulandia.service.user.model.Usuario;
+import com.perfulandia.service.user.service.UsuarioService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.HttpStatus;
 
 import jakarta.validation.Valid;
 

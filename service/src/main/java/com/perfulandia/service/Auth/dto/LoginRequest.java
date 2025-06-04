@@ -1,4 +1,4 @@
-package com.perfulandia.service.dto;
+package com.perfulandia.service.Auth.dto;
 
 public class LoginRequest {
     private String correo;

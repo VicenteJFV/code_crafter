@@ -1,4 +1,4 @@
-package com.perfulandia.service.model;
+package com.perfulandia.service.user.model;
 
 import jakarta.persistence.*;
 
@@ -11,6 +11,10 @@ public class Rol {
     private Long id;
 
     private String nombre;
+
+    public Rol() {
+
+    }
 
     // Getters y setters
     public Long getId() {
@@ -28,4 +32,9 @@ public class Rol {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public Rol(String nombre) {
+        this.nombre = nombre;
+    }
+
 }

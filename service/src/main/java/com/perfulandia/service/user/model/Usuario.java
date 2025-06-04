@@ -1,4 +1,4 @@
-package com.perfulandia.service.model;
+package com.perfulandia.service.user.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -58,4 +58,13 @@ public class Usuario {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
 }
