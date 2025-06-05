@@ -1,7 +1,7 @@
-package com.perfulandia.service.inventory.controller;
+package com.perfulandia.service.Inventory.controller;
 
-import com.perfulandia.service.inventory.dto.ProductoDTO;
-import com.perfulandia.service.inventory.service.ProductoService;
+import com.perfulandia.service.Inventory.dto.ProductoDTO;
+import com.perfulandia.service.Inventory.service.ProductoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

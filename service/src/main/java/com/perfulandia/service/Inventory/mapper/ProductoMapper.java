@@ -1,7 +1,7 @@
-package com.perfulandia.service.inventory.mapper;
+package com.perfulandia.service.Inventory.mapper;
 
-import com.perfulandia.service.inventory.dto.ProductoDTO;
-import com.perfulandia.service.inventory.model.Producto;
+import com.perfulandia.service.Inventory.dto.ProductoDTO;
+import com.perfulandia.service.Inventory.model.Producto;
 import org.springframework.stereotype.Component;
 
 @Component

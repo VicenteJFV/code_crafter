@@ -1,25 +1,15 @@
-package com.perfulandia.service.inventory.model;
+package com.perfulandia.service.Inventory.dto;
 
-import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
-@Table(name = "productos")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Producto {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ProductoDTO {
     private Long id;
-
     private String nombre;
-
     private String descripcion;
-
     private Integer stock;
-
     private Double precio;
 }
