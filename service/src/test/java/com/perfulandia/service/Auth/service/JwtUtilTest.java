@@ -1,28 +1,39 @@
 package com.perfulandia.service.Auth.service;
+import org.junit.jupiter.api.Test;
 
 import com.perfulandia.service.user.config.JwtConfig;
 import com.perfulandia.service.user.model.Usuario;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import javax.crypto.SecretKey;
-
-import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.jsonwebtoken.*;
+import javax.crypto.SecretKey;
 
-@Component
-public class JwtUtil {
+import org.junit.Before;    
+    
+public class JwtUtilTest {
 
-    private final JwtConfig jwtConfig;
+    @Before
+    public void setup(){
 
-    public JwtUtil(JwtConfig jwtConfig) {
-        this.jwtConfig = jwtConfig;
+    }
+        
+    @Test
+    public void test() {
+        
     }
 
+    
+    private JwtConfig jwtConfig;
+
+
+    @Test
     public String generarToken(Usuario usuario) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", usuario.getId());
@@ -39,6 +50,7 @@ public class JwtUtil {
                 .compact();
     }
 
+    @Test
     public String obtenerCorreoDesdeToken(String token) {
         SecretKey key = Keys.hmacShaKeyFor(jwtConfig.getSecret().getBytes());
         return Jwts.parserBuilder()
@@ -49,6 +61,7 @@ public class JwtUtil {
                 .getSubject();
     }
 
+    @Test
     public boolean validarToken(String token) {
         try {
             SecretKey key = Keys.hmacShaKeyFor(jwtConfig.getSecret().getBytes());
@@ -59,6 +72,7 @@ public class JwtUtil {
         }
     }
 
+    @Test
     public Claims obtenerClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(Keys.hmacShaKeyFor(jwtConfig.getSecret().getBytes()))
@@ -67,6 +81,7 @@ public class JwtUtil {
                 .getBody();
     }
 
+    @Test
     public Long extraerIdDesdeToken(String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(Keys.hmacShaKeyFor(jwtConfig.getSecret().getBytes()))
@@ -76,6 +91,7 @@ public class JwtUtil {
         return Long.parseLong(claims.get("id").toString());
     }
 
+    @Test
     public String extraerRolDesdeToken(String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(Keys.hmacShaKeyFor(jwtConfig.getSecret().getBytes()))
@@ -84,5 +100,5 @@ public class JwtUtil {
                 .getBody();
         return claims.get("rol").toString();
     }
-
 }
+    

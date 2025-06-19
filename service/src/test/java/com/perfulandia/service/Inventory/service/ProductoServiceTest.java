@@ -1,23 +1,29 @@
 package com.perfulandia.service.Inventory.service;
 
+import org.junit.Before;
+import org.junit.jupiter.api.Test;
 import com.perfulandia.service.Inventory.dto.ProductoDTO;
 import com.perfulandia.service.Inventory.exception.ProductoNotFoundException;
 import com.perfulandia.service.Inventory.mapper.ProductoMapper;
 import com.perfulandia.service.Inventory.model.Producto;
 import com.perfulandia.service.Inventory.repository.ProductoRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
-@RequiredArgsConstructor
-public class ProductoService {
+public class ProductoServiceTest {
 
-    private final ProductoRepository productoRepository;
-    private final ProductoMapper mapper;
+    @Before
+    public void setup(){
+
+    }
+        
+    @Test
+    public void test() {
+        
+    }
+     private final ProductoRepository productoRepository = null;
+     private final ProductoMapper mapper = new ProductoMapper();
 
     @Test
     public List<ProductoDTO> obtenerTodos() {
@@ -60,3 +66,4 @@ public class ProductoService {
         productoRepository.deleteById(id);
     }
 }
+    

@@ -1,23 +1,34 @@
 package com.perfulandia.service.Auth.service;
+import org.junit.jupiter.api.Test;
 
 import com.perfulandia.service.user.model.Rol;
 import com.perfulandia.service.user.model.Usuario;
 import com.perfulandia.service.user.repository.RolRepository;
 import com.perfulandia.service.user.service.UsuarioService;
-import org.junit.jupiter.api.Test;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor
-public class AuthService {
+import org.junit.Before;    
+    
+public class AuthServiceTest {
 
-    private final RolRepository rolRepository;
-    private final UsuarioService usuarioService;
+    @Before
+    public void setup(){
 
+    }
+        
+    @Test
+    public void test() {
+        
+    }
+
+    public class AuthService {
+
+    private final RolRepository rolRepository = null;
+    private final UsuarioService usuarioService = null;
+
+    @Test
     public List<Rol> obtenerRoles() {
         return rolRepository.findAll()
                 .stream()
@@ -25,6 +36,7 @@ public class AuthService {
                 .toList();
     }
 
+    @Test
     public Optional<Usuario> validarCredenciales(String correo, String password) {
         Optional<Usuario> usuarioOpt = usuarioService.buscarPorCorreo(correo);
 
@@ -39,3 +51,7 @@ public class AuthService {
         return Optional.empty();
     }
 }
+
+
+}
+    
