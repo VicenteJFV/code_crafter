@@ -9,6 +9,16 @@
             "projectName": "service",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ServiceApplication<service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.perfulandia.service.ServiceApplication",
+            "projectName": "service",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
