@@ -29,6 +29,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "Auth", description = "Controlador de autenticación y registro de usuarios")
 public class AuthController {
 
     @Autowired
@@ -47,6 +48,7 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")
+    @Operation(summary = "Iniciar sesión", description = "Permite a un usuario iniciar sesión con su correo y contraseña")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         Optional<Usuario> usuarioOpt = usuarioService.buscarPorCorreo(request.getCorreo());
 
@@ -65,6 +67,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
+@Operation(summary = "Registrar usuario", description = "Permite registrar un nuevo usuario en el sistema")
     public ResponseEntity<?> registrarUsuario(@Valid @RequestBody RegistroRequest request) {
         try {
             System.out.println("Registrando usuario: " + request.getCorreo());
@@ -95,6 +98,7 @@ public class AuthController {
     }
 
     @GetMapping("/roles")
+@Operation(summary = "Obtener roles disponibles", description = "Devuelve una lista de roles disponibles para asignar a los usuarios")
     public ResponseEntity<List<Rol>> obtenerRolesDisponibles() {
         return ResponseEntity.ok(authService.obtenerRoles());
     }
