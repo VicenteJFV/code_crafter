@@ -1,27 +1,35 @@
 package com.perfulandia.service.Auth.controller;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.perfulandia.service.Auth.dto.JwtResponse;
 import com.perfulandia.service.Auth.dto.LoginRequest;
 import com.perfulandia.service.Auth.dto.RegistroRequest;
-import com.perfulandia.service.Auth.service.JwtUtil;
 import com.perfulandia.service.Auth.service.AuthService;
+import com.perfulandia.service.Auth.service.JwtUtil;
 import com.perfulandia.service.user.model.Rol;
 import com.perfulandia.service.user.model.Usuario;
 import com.perfulandia.service.user.repository.RolRepository;
 import com.perfulandia.service.user.service.UsuarioService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.validation.Valid;
 
-import java.util.Optional;
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "Auth", description = "Controlador de autenticación y registro de usuarios")
 public class AuthController {
 
     @Autowired
@@ -40,6 +48,7 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")
+    @Operation(summary = "Iniciar sesión", description = "Permite a un usuario iniciar sesión con su correo y contraseña")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         Optional<Usuario> usuarioOpt = usuarioService.buscarPorCorreo(request.getCorreo());
 
@@ -58,6 +67,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
+@Operation(summary = "Registrar usuario", description = "Permite registrar un nuevo usuario en el sistema")
     public ResponseEntity<?> registrarUsuario(@Valid @RequestBody RegistroRequest request) {
         try {
             System.out.println("Registrando usuario: " + request.getCorreo());
@@ -88,6 +98,7 @@ public class AuthController {
     }
 
     @GetMapping("/roles")
+@Operation(summary = "Obtener roles disponibles", description = "Devuelve una lista de roles disponibles para asignar a los usuarios")
     public ResponseEntity<List<Rol>> obtenerRolesDisponibles() {
         return ResponseEntity.ok(authService.obtenerRoles());
     }
