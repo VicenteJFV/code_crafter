@@ -41,20 +41,28 @@ public class JwtUtil {
 
     public String obtenerCorreoDesdeToken(String token) {
         SecretKey key = Keys.hmacShaKeyFor(jwtConfig.getSecret().getBytes());
-        return Jwts.parserBuilder()
+
+        String correo = Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
+
+        System.out.println("Correo extraído del token: " + correo);
+
+        return correo;
     }
 
     public boolean validarToken(String token) {
         try {
-            SecretKey key = Keys.hmacShaKeyFor(jwtConfig.getSecret().getBytes());
+            String secret = jwtConfig.getSecret();
+            System.out.println("JWT_SECRET en validarToken(): " + secret); // <--- línea clave
+            SecretKey key = Keys.hmacShaKeyFor(secret.getBytes());
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (Exception e) {
+            System.out.println("Error validando token: " + e.getMessage());
             return false;
         }
     }
