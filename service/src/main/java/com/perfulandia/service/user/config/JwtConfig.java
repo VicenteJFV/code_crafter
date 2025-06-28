@@ -1,24 +1,28 @@
 package com.perfulandia.service.user.config;
 
-import io.github.cdimascio.dotenv.Dotenv;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@ConfigurationProperties(prefix = "jwt")
 public class JwtConfig {
 
-    private final Dotenv dotenv = Dotenv.configure()
-            .directory("C:/Users/vifar/OneDrive/Documentos/GitHub/code_crafter/service") // <- asegúrate que apunta a la
-                                                                                         // carpeta raíz donde está el
-                                                                                         // .env
-            .ignoreIfMissing()
-            .load();
+    private String secret;
+    private long expiration;
 
     public String getSecret() {
-        System.out.println("JWT_SECRET (desde dotenv): " + dotenv.get("JWT_SECRET"));
-        return dotenv.get("JWT_SECRET");
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
     }
 
     public long getExpiration() {
-        return Long.parseLong(dotenv.get("JWT_EXPIRATION", "3600000"));
+        return expiration;
+    }
+
+    public void setExpiration(long expiration) {
+        this.expiration = expiration;
     }
 }

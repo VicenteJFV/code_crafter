@@ -2,10 +2,12 @@ server:
   port: 8080
 
 spring:
+  profiles:
+    active: dev
   datasource:
     url: jdbc:mysql://localhost:3306/perfulandia?useSSL=false&serverTimezone=UTC
     username: root
-    password: 
+    password:
   jpa:
     hibernate:
       ddl-auto: update
@@ -17,8 +19,17 @@ logging:
     org.springframework.security: DEBUG
 
 jwt:
-  secret: TgYvF4LqA2mPi$uWdKs9eQ@VrcMxbZT6^nCjL1Y7&fp8wMz!R0NUd$Pqv3EkXoAJ
+  secret: TgYvF4LQA2mPi$uWdKs9eQ@VrcMxbZT6^nCjL1Y7&fp8wMz!R0NUd$Pqv3EkXoAJ
   expiration: 3600000
+
+springdoc:
+  api-docs:
+    path: /doc/api-docs
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /doc/swagger-ui.html
+    config-url: /doc/api-docs
 
 cors:
   allowed-origins: http://localhost:5173

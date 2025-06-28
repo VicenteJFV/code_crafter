@@ -62,10 +62,13 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 // Crear autoridad con el rol
                 List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(rol));
+                System.out.println("¿Correo extraído?: " + correo);
+                System.out.println("¿Token válido?: " + jwtUtil.validarToken(token));
 
                 // Validar token y setear autenticación
                 if (correo != null && jwtUtil.validarToken(token)
-                        && SecurityContextHolder.getContext().getAuthentication() == null) {
+                        && !(SecurityContextHolder.getContext()
+                                .getAuthentication() instanceof UsernamePasswordAuthenticationToken)) {
 
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                             correo,
