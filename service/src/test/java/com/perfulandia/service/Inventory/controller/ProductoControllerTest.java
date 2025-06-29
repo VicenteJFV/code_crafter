@@ -1,4 +1,4 @@
-package com.perfulandia.service.Inventory.controller;
+package com.perfulandia.service.inventory.controller;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,8 +23,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.perfulandia.service.Auth.service.JwtUtil;
-import com.perfulandia.service.Inventory.dto.ProductoDTO;
-import com.perfulandia.service.Inventory.service.ProductoService;
+import com.perfulandia.service.inventory.dto.ProductoDTO;
+import com.perfulandia.service.inventory.service.ProductoService;
 import com.perfulandia.service.user.config.JwtConfig;
 
 @WebMvcTest(ProductoController.class)
@@ -101,9 +102,11 @@ class ProductoControllerTest {
     void crear() throws Exception {
         when(productoService.crear(any(ProductoDTO.class))).thenReturn(productoDTO);
 
-        String json = String.format(
+        String json = String.format(Locale.US,
                 "{\"nombre\":\"%s\",\"descripcion\":\"%s\",\"stock\":%d,\"precio\":%.2f}",
                 nombre, descripcion, stock, precio);
+
+        System.out.println(json);
 
         mockMvc.perform(post("/api/productos/crear")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -113,7 +116,11 @@ class ProductoControllerTest {
                 .andExpect(jsonPath("$.nombre", is(nombre)))
                 .andExpect(jsonPath("$.descripcion", is(descripcion)))
                 .andExpect(jsonPath("$.stock", is(stock)))
-                .andExpect(jsonPath("$.precio", is(precio)));
+                .andExpect(jsonPath("$.precio", is(precio)))
+                .andExpect(jsonPath("$._links.self.href").exists())
+                .andExpect(jsonPath("$._links.actualizar.href").exists())
+                .andExpect(jsonPath("$._links.eliminar.href").exists())
+                .andExpect(jsonPath("$._links.todos.href").exists());
 
         verify(productoService).crear(any(ProductoDTO.class));
     }
@@ -130,19 +137,23 @@ class ProductoControllerTest {
 
         when(productoService.actualizar(eq(id), any(ProductoDTO.class))).thenReturn(dtoActualizado);
 
-        String json = String.format(
+        String json = String.format(Locale.US,
                 "{\"nombre\":\"%s\",\"descripcion\":\"%s\",\"stock\":%d,\"precio\":%.2f}",
-                "Nuevo nombre", "Nueva descripción", 20, 199.99);
+                nombre, descripcion, stock, precio);
 
         mockMvc.perform(put("/api/productos/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
-                .andExpect(status().isNoContent())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(id.intValue())))
                 .andExpect(jsonPath("$.nombre", is("Nuevo nombre")))
                 .andExpect(jsonPath("$.descripcion", is("Nueva descripción")))
                 .andExpect(jsonPath("$.stock", is(20)))
-                .andExpect(jsonPath("$.precio", is(199.99)));
+                .andExpect(jsonPath("$.precio", is(199.99)))
+                .andExpect(jsonPath("$._links.self.href").exists())
+                .andExpect(jsonPath("$._links.actualizar.href").exists())
+                .andExpect(jsonPath("$._links.eliminar.href").exists())
+                .andExpect(jsonPath("$._links.todos.href").exists());
 
         verify(productoService).actualizar(eq(id), any(ProductoDTO.class));
     }

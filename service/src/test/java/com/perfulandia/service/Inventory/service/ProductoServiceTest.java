@@ -1,4 +1,4 @@
-package com.perfulandia.service.Inventory.service;
+package com.perfulandia.service.inventory.service;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,10 +19,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.perfulandia.service.Auth.service.JwtUtil;
-import com.perfulandia.service.Inventory.dto.ProductoDTO;
-import com.perfulandia.service.Inventory.mapper.ProductoMapper;
-import com.perfulandia.service.Inventory.model.Producto;
-import com.perfulandia.service.Inventory.repository.ProductoRepository;
+import com.perfulandia.service.inventory.dto.ProductoDTO;
+import com.perfulandia.service.inventory.mapper.ProductoMapper;
+import com.perfulandia.service.inventory.model.Producto;
+import com.perfulandia.service.inventory.repository.ProductoRepository;
 
 @ExtendWith(MockitoExtension.class)
 class ProductoServiceTest {

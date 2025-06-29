@@ -1,10 +1,10 @@
-package com.perfulandia.service.Inventory.service;
+package com.perfulandia.service.inventory.service;
 
-import com.perfulandia.service.Inventory.dto.ProductoDTO;
-import com.perfulandia.service.Inventory.exception.ProductoNotFoundException;
-import com.perfulandia.service.Inventory.mapper.ProductoMapper;
-import com.perfulandia.service.Inventory.model.Producto;
-import com.perfulandia.service.Inventory.repository.ProductoRepository;
+import com.perfulandia.service.inventory.dto.ProductoDTO;
+import com.perfulandia.service.inventory.exception.ProductoNotFoundException;
+import com.perfulandia.service.inventory.mapper.ProductoMapper;
+import com.perfulandia.service.inventory.model.Producto;
+import com.perfulandia.service.inventory.repository.ProductoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
