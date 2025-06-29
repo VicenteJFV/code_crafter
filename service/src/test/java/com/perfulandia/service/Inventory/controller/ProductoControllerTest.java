@@ -70,12 +70,12 @@ class ProductoControllerTest {
 
         mockMvc.perform(get("/api/productos"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].id", is(id.intValue())))
-                .andExpect(jsonPath("$[0].nombre", is(nombre)))
-                .andExpect(jsonPath("$[0].descripcion", is(descripcion)))
-                .andExpect(jsonPath("$[0].stock", is(stock)))
-                .andExpect(jsonPath("$[0].precio", is(precio)));
+                .andExpect(jsonPath("$._embedded.productoDTOList", hasSize(1)))
+                .andExpect(jsonPath("$._embedded.productoDTOList[0].id", is(id.intValue())))
+                .andExpect(jsonPath("$._embedded.productoDTOList[0].nombre", is(nombre)))
+                .andExpect(jsonPath("$._embedded.productoDTOList[0].descripcion", is(descripcion)))
+                .andExpect(jsonPath("$._embedded.productoDTOList[0].stock", is(stock)))
+                .andExpect(jsonPath("$._embedded.productoDTOList[0].precio", is(precio)));
 
         verify(productoService).obtenerTodos();
     }
@@ -137,7 +137,7 @@ class ProductoControllerTest {
         mockMvc.perform(put("/api/productos/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andExpect(jsonPath("$.id", is(id.intValue())))
                 .andExpect(jsonPath("$.nombre", is("Nuevo nombre")))
                 .andExpect(jsonPath("$.descripcion", is("Nueva descripción")))
@@ -151,7 +151,7 @@ class ProductoControllerTest {
     @WithMockUser(roles = { "GERENTE" })
     void eliminar() throws Exception {
         mockMvc.perform(delete("/api/productos/{id}", id))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
         verify(productoService).eliminar(id);
     }

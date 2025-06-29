@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.perfulandia.service.Auth.service.JwtUtil;
 import com.perfulandia.service.user.config.JwtConfig;
+import com.perfulandia.service.user.model.Rol;
 import com.perfulandia.service.user.model.Usuario;
 import com.perfulandia.service.user.service.UsuarioService;
 
@@ -57,22 +58,22 @@ class UsuarioControllerTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(roles = "ADMIN")
     void obtenerUsuarios() throws Exception {
         when(usuarioService.listarUsuarios()).thenReturn(Arrays.asList(usuario));
 
         mockMvc.perform(get("/api/usuarios"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].id", is(id.intValue())))
-                .andExpect(jsonPath("$[0].correo", is(correo)))
-                .andExpect(jsonPath("$[0].nombre", is(nombre)));
+                .andExpect(jsonPath("$._embedded.usuarioList", hasSize(1)))
+                .andExpect(jsonPath("$._embedded.usuarioList[0].id", is(id.intValue())))
+                .andExpect(jsonPath("$._embedded.usuarioList[0].correo", is(correo)))
+                .andExpect(jsonPath("$._embedded.usuarioList[0].nombre", is(nombre)));
 
         verify(usuarioService).listarUsuarios();
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(roles = "ADMIN")
     void crearUsuario() throws Exception {
         when(usuarioService.guardarUsuario(any(Usuario.class))).thenReturn(usuario);
 
@@ -92,7 +93,7 @@ class UsuarioControllerTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(roles = "ADMIN")
     void actualizarUsuario() throws Exception {
         Usuario usuarioActualizado = new Usuario();
         usuarioActualizado.setId(id);
@@ -100,8 +101,15 @@ class UsuarioControllerTest {
         usuarioActualizado.setNombre("Nuevo Nombre");
         usuarioActualizado.setPassword(password);
 
+        Rol rol = new Rol();
+        rol.setId(1L);
+        rol.setNombre("ROLE_ADMIN");
+        usuarioActualizado.setRol(rol);
+        usuario.setRol(rol);
+
         when(usuarioService.buscarPorId(id)).thenReturn(Optional.of(usuario));
         when(usuarioService.guardarUsuario(any(Usuario.class))).thenReturn(usuarioActualizado);
+        when(usuarioService.buscarPorCorreo(anyString())).thenReturn(Optional.of(usuarioActualizado));
 
         String json = String.format(
                 "{\"id\":%d,\"correo\":\"%s\",\"nombre\":\"%s\",\"password\":\"%s\"}",
@@ -119,7 +127,7 @@ class UsuarioControllerTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(roles = "ADMIN")
     void actualizarUsuario_notFound() throws Exception {
         when(usuarioService.buscarPorId(anyLong())).thenReturn(Optional.empty());
 
@@ -132,7 +140,7 @@ class UsuarioControllerTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(roles = "ADMIN")
     void eliminarUsuario() throws Exception {
         when(usuarioService.existePorId(id)).thenReturn(true);
         Mockito.doNothing().when(usuarioService).eliminarPorId(id);
@@ -145,7 +153,7 @@ class UsuarioControllerTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(roles = "ADMIN")
     void eliminarUsuario_notFound() throws Exception {
         when(usuarioService.existePorId(anyLong())).thenReturn(false);
 
