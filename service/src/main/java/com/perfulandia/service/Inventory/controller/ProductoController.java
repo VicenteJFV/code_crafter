@@ -1,4 +1,4 @@
-package com.perfulandia.service.Inventory.controller;
+package com.perfulandia.service.inventory.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
-import com.perfulandia.service.Inventory.dto.ProductoDTO;
-import com.perfulandia.service.Inventory.service.ProductoService;
+import com.perfulandia.service.inventory.dto.ProductoDTO;
+import com.perfulandia.service.inventory.service.ProductoService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -76,15 +76,27 @@ public class ProductoController {
     @PostMapping("/crear")
     @Operation(summary = "Crear producto", description = "Permite crear un nuevo producto")
     @PreAuthorize("hasAnyRole('GERENTE', 'ADMIN')")
-    public ProductoDTO crear(@RequestBody ProductoDTO dto) {
-        return productoService.crear(dto);
+    public ResponseEntity<EntityModel<ProductoDTO>> crear(@RequestBody ProductoDTO dto) {
+        ProductoDTO creado = productoService.crear(dto);
+        EntityModel<ProductoDTO> productoModel = EntityModel.of(creado,
+                linkTo(methodOn(ProductoController.class).obtenerProductoPorId(creado.getId())).withSelfRel(),
+                linkTo(methodOn(ProductoController.class).actualizar(creado.getId(), null)).withRel("actualizar"),
+                linkTo(ProductoController.class).slash(creado.getId()).withRel("eliminar"),
+                linkTo(methodOn(ProductoController.class).listarProductos()).withRel("todos"));
+        return ResponseEntity.ok(productoModel);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar producto", description = "Permite actualizar un producto existente")
     @PreAuthorize("hasAnyRole('GERENTE', 'ADMIN')")
-    public ProductoDTO actualizar(@PathVariable Long id, @RequestBody ProductoDTO dto) {
-        return productoService.actualizar(id, dto);
+    public ResponseEntity<EntityModel<ProductoDTO>> actualizar(@PathVariable Long id, @RequestBody ProductoDTO dto) {
+        ProductoDTO actualizado = productoService.actualizar(id, dto);
+        EntityModel<ProductoDTO> productoModel = EntityModel.of(actualizado,
+                linkTo(methodOn(ProductoController.class).obtenerProductoPorId(actualizado.getId())).withSelfRel(),
+                linkTo(methodOn(ProductoController.class).actualizar(actualizado.getId(), null)).withRel("actualizar"),
+                linkTo(ProductoController.class).slash(actualizado.getId()).withRel("eliminar"),
+                linkTo(methodOn(ProductoController.class).listarProductos()).withRel("todos"));
+        return ResponseEntity.ok(productoModel);
     }
 
     @DeleteMapping("/{id}")
