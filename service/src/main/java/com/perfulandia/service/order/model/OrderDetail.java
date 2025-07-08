@@ -1,4 +1,4 @@
-package main.java.com.perfulandia.service.order.model;
+package com.perfulandia.service.order.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,6 +20,6 @@ public class OrderDetail {
     private Double precioUnitario;
 
     @ManyToOne
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Order order;
 }

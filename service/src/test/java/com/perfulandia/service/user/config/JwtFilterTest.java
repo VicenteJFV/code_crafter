@@ -1,4 +1,4 @@
-package com.perfulandia.service.Auth.config;
+package com.perfulandia.service.user.config;
 
 import java.io.IOException;
 
@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.perfulandia.service.Auth.service.JwtUtil;
 import com.perfulandia.service.user.config.JwtConfig;
+import com.perfulandia.service.user.config.JwtFilter;
 
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;

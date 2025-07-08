@@ -1,4 +1,4 @@
-package main.java.com.perfulandia.service.order.service.impl;
+package com.perfulandia.service.order.service.impl;
 
 import com.perfulandia.service.order.dto.OrderRequestDTO;
 import com.perfulandia.service.order.dto.OrderResponseDTO;
@@ -8,7 +8,14 @@ import com.perfulandia.service.order.repository.OrderRepository;
 import com.perfulandia.service.order.repository.OrderDetailRepository;
 import com.perfulandia.service.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,9 +27,36 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderDetailRepository detailRepository;
+    private final RestTemplate restTemplate;
+
+    private static final String PRODUCTO_API_URL = "http://localhost:8080/api/productos/";
 
     @Override
     public OrderResponseDTO crearOrden(OrderRequestDTO request, Long clienteId) {
+        // Validar stock y descontar en cada producto
+        for (OrderRequestDTO.ItemDTO item : request.getItems()) {
+            // Para GET
+            HttpEntity<Void> entity = new HttpEntity<>(buildAuthHeaders());
+            ResponseEntity<ProductoDTO> response = restTemplate.exchange(
+                    PRODUCTO_API_URL + item.getProductoId(),
+                    HttpMethod.GET,
+                    entity,
+                    ProductoDTO.class);
+            ProductoDTO producto = response.getBody();
+
+            if (producto == null || producto.getStock() < item.getCantidad()) {
+                throw new RuntimeException("Stock insuficiente para el producto ID: " + item.getProductoId());
+            }
+
+            // Descontar stock (llamada a PATCH o PUT del microservicio de productos)
+            HttpEntity<Integer> patchEntity = new HttpEntity<>(item.getCantidad(), buildAuthHeaders());
+            restTemplate.exchange(
+                    PRODUCTO_API_URL + item.getProductoId() + "/descontar",
+                    HttpMethod.PATCH,
+                    patchEntity,
+                    Void.class);
+        }
+
         Order order = Order.builder()
                 .clienteId(clienteId)
                 .fechaCreacion(LocalDateTime.now())
@@ -73,5 +107,22 @@ public class OrderServiceImpl implements OrderService {
                                 d.getPrecioUnitario()))
                         .collect(Collectors.toList()))
                 .build();
+    }
+
+    // DTO para consumir producto desde el microservicio externo
+    @lombok.Data
+    public static class ProductoDTO {
+        private Long id;
+        private String nombre;
+        private Double precio;
+        private Integer stock;
+    }
+
+    private HttpHeaders buildAuthHeaders() {
+        ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        String token = attrs.getRequest().getHeader("Authorization");
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", token);
+        return headers;
     }
 }

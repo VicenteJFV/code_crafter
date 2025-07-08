@@ -23,6 +23,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.perfulandia.service.Auth.service.JwtUtil;
+import com.perfulandia.service.inventory.controller.ProductoController;
 import com.perfulandia.service.inventory.dto.ProductoDTO;
 import com.perfulandia.service.inventory.service.ProductoService;
 import com.perfulandia.service.user.config.JwtConfig;

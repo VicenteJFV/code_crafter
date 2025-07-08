@@ -1,4 +1,4 @@
-package main.java.com.perfulandia.service.order.service;
+package com.perfulandia.service.order.service;
 
 import com.perfulandia.service.order.dto.OrderRequestDTO;
 import com.perfulandia.service.order.dto.OrderResponseDTO;

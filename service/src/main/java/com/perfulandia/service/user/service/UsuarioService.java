@@ -41,6 +41,7 @@ public class UsuarioService {
     }
 
     public Optional<Usuario> buscarPorCorreo(String correo) {
+        System.out.println("Buscando usuario con correo: >" + correo + "<");
         return usuarioRepository.findByCorreo(correo);
     }
 

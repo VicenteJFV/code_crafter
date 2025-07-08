@@ -1,4 +1,4 @@
-package main.java.com.perfulandia.service.order.repository;
+package com.perfulandia.service.order.repository;
 
 import com.perfulandia.service.order.model.OrderDetail;
 import org.springframework.data.jpa.repository.JpaRepository;

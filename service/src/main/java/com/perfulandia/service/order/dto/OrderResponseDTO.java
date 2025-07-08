@@ -1,4 +1,4 @@
-package main.java.com.perfulandia.service.order.dto;
+package com.perfulandia.service.order.dto;
 
 import lombok.*;
 import java.time.LocalDateTime;

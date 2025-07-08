@@ -11,7 +11,6 @@ import org.springframework.security.web.authentication.Http403ForbiddenEntryPoin
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.perfulandia.service.Auth.config.JwtAuthenticationEntryPoint;
-import com.perfulandia.service.Auth.config.JwtFilter;
 
 @Configuration
 public class SecurityConfig {
@@ -30,7 +29,6 @@ public class SecurityConfig {
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/protected/**").authenticated()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

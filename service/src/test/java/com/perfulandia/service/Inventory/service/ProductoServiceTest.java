@@ -23,6 +23,7 @@ import com.perfulandia.service.inventory.dto.ProductoDTO;
 import com.perfulandia.service.inventory.mapper.ProductoMapper;
 import com.perfulandia.service.inventory.model.Producto;
 import com.perfulandia.service.inventory.repository.ProductoRepository;
+import com.perfulandia.service.inventory.service.ProductoService;
 
 @ExtendWith(MockitoExtension.class)
 class ProductoServiceTest {
