@@ -1,8 +1,7 @@
-package com.perfulandia.service.Auth.config;
+package com.perfulandia.service.user.config;
 
 import com.perfulandia.service.Auth.service.JwtUtil;
-import com.perfulandia.service.user.config.JwtConfig;
-
+import com.perfulandia.service.user.config.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
@@ -12,15 +11,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.lang.NonNull;
+
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -31,15 +29,17 @@ public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     private JwtConfig jwtConfig;
 
+    @Autowired
+    private UserDetailsServiceImpl usuarioDetailsService;
+
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain chain)
             throws ServletException, IOException {
-
         String path = request.getRequestURI();
+        System.out.println("JwtFilter: procesando path: " + path);
 
-        // 🔓 Saltar autenticación para rutas públicas
         if (path.startsWith("/api/auth")) {
             chain.doFilter(request, response);
             return;
@@ -50,37 +50,25 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = null;
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            token = authHeader.substring(7); // quitar "Bearer "
+            token = authHeader.substring(7);
 
             try {
-                // Extraer correo desde token (subject)
                 correo = jwtUtil.obtenerCorreoDesdeToken(token);
-
-                // Extraer claims desde token
                 Claims claims = jwtUtil.obtenerClaims(token);
                 String rol = (String) claims.get("rol");
 
-                // Crear autoridad con el rol
-                List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(rol));
                 System.out.println("¿Correo extraído?: " + correo);
                 System.out.println("¿Token válido?: " + jwtUtil.validarToken(token));
 
-                // Validar token y setear autenticación
-                if (correo != null && jwtUtil.validarToken(token)
-                        && !(SecurityContextHolder.getContext()
-                                .getAuthentication() instanceof UsernamePasswordAuthenticationToken)) {
-
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            correo,
-                            null,
-                            authorities);
-
-                    authentication.setDetails(
-                            new WebAuthenticationDetailsSource().buildDetails(request));
-
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-
-                    System.out.println("Autenticación seteada con correo: " + correo + " y rol: " + rol);
+                if (correo != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    UserDetails userDetails = usuarioDetailsService.loadUserByUsername(correo);
+                    if (jwtUtil.validarToken(token)) {
+                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                                userDetails, null, userDetails.getAuthorities());
+                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                        System.out.println("JwtFilter: usuario autenticado " + correo);
+                    }
                 }
 
             } catch (ExpiredJwtException e) {
