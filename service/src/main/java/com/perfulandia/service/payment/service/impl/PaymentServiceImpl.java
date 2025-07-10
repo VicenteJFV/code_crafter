@@ -1,5 +1,12 @@
 package com.perfulandia.service.payment.service.impl;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.perfulandia.service.order.model.Order;
 import com.perfulandia.service.order.repository.OrderRepository;
 import com.perfulandia.service.payment.dto.PaymentRequestDTO;
@@ -7,12 +14,6 @@ import com.perfulandia.service.payment.dto.PaymentResponseDTO;
 import com.perfulandia.service.payment.model.Payment;
 import com.perfulandia.service.payment.repository.PaymentRepository;
 import com.perfulandia.service.payment.service.PaymentService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
@@ -49,6 +50,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         Payment pago = new Payment();
         pago.setMonto(request.getMonto().floatValue());
+        pago.setMetodoPago(request.getMetodoPago());
         pago.setOrder(orden);
         paymentRepository.save(pago);
 
