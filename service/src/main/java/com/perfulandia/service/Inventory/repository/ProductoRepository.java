@@ -1,7 +1,8 @@
-package com.perfulandia.service.inventory.repository;
+package com.perfulandia.service.Inventory.repository;
 
-import com.perfulandia.service.inventory.model.Producto;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.perfulandia.service.Inventory.model.Producto;
 
 public interface ProductoRepository extends JpaRepository<Producto, Long> {
     boolean existsByNombre(String nombre);

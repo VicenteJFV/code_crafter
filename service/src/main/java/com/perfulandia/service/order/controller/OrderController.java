@@ -1,23 +1,27 @@
 package com.perfulandia.service.order.controller;
 
-import com.perfulandia.service.inventory.controller.ProductoController;
-import com.perfulandia.service.order.dto.OrderRequestDTO;
-import com.perfulandia.service.order.dto.OrderResponseDTO;
-import com.perfulandia.service.order.service.OrderService;
-import com.perfulandia.service.user.service.UsuarioService;
-import com.perfulandia.service.user.model.Usuario;
-import com.perfulandia.service.user.config.CustomUserDetails;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import com.perfulandia.service.Inventory.controller.ProductoController;
+import com.perfulandia.service.order.dto.OrderRequestDTO;
+import com.perfulandia.service.order.dto.OrderResponseDTO;
+import com.perfulandia.service.order.service.OrderService;
+import com.perfulandia.service.user.service.UsuarioService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -28,11 +32,11 @@ public class OrderController {
     private final UsuarioService usuarioService;
 
     @PostMapping
-    public ResponseEntity<?> crearOrden(Authentication authentication, @RequestBody OrderRequestDTO request) {
-        System.out.println("Controller: authentication = " + authentication);
-        if (authentication == null)
+    public ResponseEntity<?> crearOrden(
+            @org.springframework.security.core.annotation.AuthenticationPrincipal com.perfulandia.service.user.config.CustomUserDetails userDetails,
+            @RequestBody OrderRequestDTO request) {
+        if (userDetails == null)
             throw new RuntimeException("No autenticado");
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         String correo = userDetails.getUsername();
         Long clienteId = userDetails.getId();
 

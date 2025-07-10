@@ -1,4 +1,4 @@
-package com.perfulandia.service.inventory.dto;
+package com.perfulandia.service.Inventory.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

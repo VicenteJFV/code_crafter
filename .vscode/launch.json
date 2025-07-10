@@ -1,24 +1,43 @@
 {
-    "configurations": [
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-ServiceApplicationTests<service>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.perfulandia.service.ServiceApplicationTests",
+      "projectName": "service",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-ServiceApplication<service>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.perfulandia.service.ServiceApplication",
+      "projectName": "service",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": true,
+      "cwd": "c:/Users/guerb/OneDrive/Escritorio/final/code_crafter/service/src/main/java/com/perfulandia/service/order",
+      "program": "c:/Users/guerb/OneDrive/Escritorio/final/code_crafter/service/src/main/java/com/perfulandia/service/order/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
         {
-            "type": "java",
-            "name": "Spring Boot-ServiceApplicationTests<service>",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "mainClass": "com.perfulandia.service.ServiceApplicationTests",
-            "projectName": "service",
-            "args": "",
-            "envFile": "${workspaceFolder}/.env"
-        },
-        {
-            "type": "java",
-            "name": "Spring Boot-ServiceApplication<service>",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "mainClass": "com.perfulandia.service.ServiceApplication",
-            "projectName": "service",
-            "args": "",
-            "envFile": "${workspaceFolder}/.env"
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
         }
-    ]
+      ]
+    }
+  ]
 }
