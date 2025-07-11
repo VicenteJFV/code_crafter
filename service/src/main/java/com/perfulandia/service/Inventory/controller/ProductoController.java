@@ -1,4 +1,4 @@
-package com.perfulandia.service.Inventory.controller;
+package com.perfulandia.service.inventory.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.perfulandia.service.Inventory.dto.ProductoDTO;
+import com.perfulandia.service.inventory.dto.ProductoDTO;
+import com.perfulandia.service.inventory.service.ProductoService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

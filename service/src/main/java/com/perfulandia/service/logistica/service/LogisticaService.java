@@ -7,4 +7,8 @@ public interface LogisticaService {
     Logistica crearSeguimiento(LogisticaDTO dto);
 
     Logistica obtenerPorOrden(Long orderId);
+
+    void iniciarDespacho(Long orderId);
+
+    void marcarComoEntregada(Long orderId);
 }

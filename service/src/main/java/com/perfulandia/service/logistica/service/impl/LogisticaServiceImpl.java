@@ -1,49 +1,60 @@
 package com.perfulandia.service.logistica.service.impl;
 
 import com.perfulandia.service.logistica.dto.LogisticaDTO;
-import com.perfulandia.service.logistica.model.*;
-import com.perfulandia.service.logistica.repository.*;
+import com.perfulandia.service.logistica.model.Logistica;
+import com.perfulandia.service.logistica.repository.LogisticaRepository;
 import com.perfulandia.service.logistica.service.LogisticaService;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class LogisticaServiceImpl implements LogisticaService {
 
-    private final LogisticaRepository logisticaRepo;
-    private final BodegaRepository bodegaRepo;
-    private final RutaDespachoRepository rutaRepo;
+    private final LogisticaRepository logisticaRepository;
 
-    public LogisticaServiceImpl(LogisticaRepository logisticaRepo, BodegaRepository bodegaRepo,
-            RutaDespachoRepository rutaRepo) {
-        this.logisticaRepo = logisticaRepo;
-        this.bodegaRepo = bodegaRepo;
-        this.rutaRepo = rutaRepo;
+    public LogisticaServiceImpl(LogisticaRepository logisticaRepository) {
+        this.logisticaRepository = logisticaRepository;
     }
 
     @Override
     public Logistica crearSeguimiento(LogisticaDTO dto) {
-        Logistica log = new Logistica();
-        log.setOrderId(dto.getOrderId());
-        log.setEstado(dto.getEstado());
-        log.setFechaInicio(LocalDate.now());
-        log.setFechaEntregaEstimada(dto.getFechaEntregaEstimada());
-
-        Bodega bodega = bodegaRepo.findById(dto.getBodegaId())
-                .orElseThrow(() -> new RuntimeException("Bodega no encontrada"));
-        RutaDespacho ruta = rutaRepo.findById(dto.getRutaId())
-                .orElseThrow(() -> new RuntimeException("Ruta no encontrada"));
-
-        log.setBodegaSalida(bodega);
-        log.setRuta(ruta);
-
-        return logisticaRepo.save(log);
+        Logistica logistica = new Logistica();
+        logistica.setOrderId(dto.getOrderId());
+        logistica.setEstado("EN PREPARACION");
+        logistica.setFechaInicio(LocalDateTime.now());
+        return logisticaRepository.save(logistica);
     }
 
     @Override
     public Logistica obtenerPorOrden(Long orderId) {
-        return logisticaRepo.findByOrderId(orderId)
-                .orElseThrow(() -> new RuntimeException("Logística no encontrada para la orden: " + orderId));
+        return logisticaRepository.findByOrderId(orderId)
+                .orElseThrow(() -> new RuntimeException("No se encontró seguimiento para la orden: " + orderId));
     }
+
+    @Override
+    public void iniciarDespacho(Long orderId) {
+        System.out.println("🚚 Iniciando despacho para orden: " + orderId); // <-- Esto es clave
+
+        Logistica logistica = new Logistica();
+        logistica.setOrderId(orderId);
+        logistica.setEstado("EN DESPACHO");
+        logistica.setFechaInicio(LocalDateTime.now());
+        logistica.setFechaEntregaEstimada(LocalDateTime.now().plusDays(2));
+        logisticaRepository.save(logistica);
+    }
+
+    @Override
+    public void marcarComoEntregada(Long orderId) {
+        Optional<Logistica> logisticaOpt = logisticaRepository.findByOrderId(orderId);
+        if (logisticaOpt.isPresent()) {
+            Logistica logistica = logisticaOpt.get();
+            logistica.setEstado("ENTREGADO");
+            logistica.setFechaEntregaReal(LocalDateTime.now());
+            logisticaRepository.save(logistica);
+        } else {
+            throw new RuntimeException("No se encontró una orden logística con ID: " + orderId);
+        }
+    }
+
 }

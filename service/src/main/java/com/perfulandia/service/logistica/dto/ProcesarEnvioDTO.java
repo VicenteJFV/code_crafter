@@ -3,6 +3,6 @@ package com.perfulandia.service.logistica.dto;
 import lombok.Data;
 
 @Data
-public class LogisticaDTO {
+public class ProcesarEnvioDTO {
     private Long orderId;
 }

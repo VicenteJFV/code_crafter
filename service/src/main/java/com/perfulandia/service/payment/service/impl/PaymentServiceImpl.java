@@ -7,8 +7,10 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.perfulandia.service.logistica.service.LogisticaService;
 import com.perfulandia.service.order.model.Order;
 import com.perfulandia.service.order.repository.OrderRepository;
+
 import com.perfulandia.service.payment.dto.PaymentRequestDTO;
 import com.perfulandia.service.payment.dto.PaymentResponseDTO;
 import com.perfulandia.service.payment.exception.MontoInvalidoException;
@@ -26,6 +28,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private LogisticaService logisticaService;
 
     @Override
     public PaymentResponseDTO registrarPago(PaymentRequestDTO request) {
@@ -56,6 +61,14 @@ public class PaymentServiceImpl implements PaymentService {
 
         orden.setEstado("PAGADA");
         orderRepository.save(orden);
+
+        // ✅ Notificar a logística con control de errores
+        try {
+            logisticaService.iniciarDespacho(orden.getId());
+        } catch (Exception e) {
+            System.err.println("❌ Error al iniciar despacho logístico: " + e.getMessage());
+            e.printStackTrace();
+        }
 
         return new PaymentResponseDTO(
                 pago.getId(),

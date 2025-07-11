@@ -34,14 +34,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResponseDTO crearOrden(OrderRequestDTO request, Long clienteId) {
-        // ✅ Validar stock con el microservicio logístico
-        List<ValidacionStockDTO> productosValidar = request.getItems().stream()
-                .map(item -> new ValidacionStockDTO(item.getProductoId().toString(), item.getCantidad()))
-                .collect(Collectors.toList());
-
-        if (!validarStockEnLogistica(productosValidar)) {
-            throw new RuntimeException("Stock insuficiente detectado por el módulo logístico.");
-        }
 
         // ✅ Validar stock y descontar en microservicio de productos
         for (OrderRequestDTO.ItemDTO item : request.getItems()) {

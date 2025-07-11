@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.perfulandia.service.Inventory.controller.ProductoController;
+import com.perfulandia.service.inventory.controller.ProductoController;
 import com.perfulandia.service.order.dto.OrderRequestDTO;
 import com.perfulandia.service.order.dto.OrderResponseDTO;
 import com.perfulandia.service.order.service.OrderService;

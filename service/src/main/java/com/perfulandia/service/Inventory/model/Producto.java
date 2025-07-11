@@ -1,4 +1,4 @@
-package com.perfulandia.service.Inventory.model;
+package com.perfulandia.service.inventory.model;
 
 import jakarta.persistence.*;
 import lombok.*;
