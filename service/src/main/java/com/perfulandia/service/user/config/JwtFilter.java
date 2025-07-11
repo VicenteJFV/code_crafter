@@ -19,6 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.lang.NonNull;
 
 import java.io.IOException;
+import org.springframework.beans.factory.annotation.Value;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -32,6 +33,9 @@ public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     private UserDetailsServiceImpl usuarioDetailsService;
 
+    @Value("${internal.token}")
+    private String configuredInternalToken;
+
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
@@ -41,6 +45,14 @@ public class JwtFilter extends OncePerRequestFilter {
         System.out.println("JwtFilter: procesando path: " + path);
 
         if (path.startsWith("/api/auth")) {
+            chain.doFilter(request, response);
+            return;
+        }
+
+        String internalToken = request.getHeader("Internal-Token");
+
+        if (request.getRequestURI().startsWith("/api/logistica")
+                && configuredInternalToken.equals(internalToken)) {
             chain.doFilter(request, response);
             return;
         }

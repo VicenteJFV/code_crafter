@@ -1,4 +1,4 @@
-package com.perfulandia.service.Inventory.exception;
+package com.perfulandia.service.inventory.exception;
 
 public class ProductoNotFoundException extends RuntimeException {
     public ProductoNotFoundException(String mensaje) {

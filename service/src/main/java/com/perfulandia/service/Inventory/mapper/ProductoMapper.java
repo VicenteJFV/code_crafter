@@ -1,9 +1,9 @@
-package com.perfulandia.service.Inventory.mapper;
+package com.perfulandia.service.inventory.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.perfulandia.service.Inventory.dto.ProductoDTO;
-import com.perfulandia.service.Inventory.model.Producto;
+import com.perfulandia.service.inventory.dto.ProductoDTO;
+import com.perfulandia.service.inventory.model.Producto;
 
 @Component
 public class ProductoMapper {
